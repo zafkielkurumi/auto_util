@@ -26,7 +26,7 @@ const subPackages = [
 ]
 `;
 
-function dealPackage(filePath: string, exec?): void {
+function dealPackage(filePath: string, exec?: RegExpExecArray): void {
   if (exec) {
     const packageName = exec[0].substring(6);
     const arr = subPackage.filter((r) => r.name === packageName);
@@ -90,7 +90,6 @@ function readDir(filePath) {
 export function wxRoute(src: string): void {
   console.log('wx route start');
   const filePath = path.join(process.cwd(), src);
-  console.log(basename, 'base');
   readDir(filePath);
   subPackage.forEach((pkg) => {
     subPackageStr += `{
@@ -110,4 +109,5 @@ export function wxRoute(src: string): void {
     path.resolve(filePath, '..', 'constants/routes.ts'),
     str.replace(/\\/g, '/'),
   );
+  console.log('wx route end');
 }

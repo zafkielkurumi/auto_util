@@ -5,6 +5,7 @@
  */
 import commander from 'commander';
 import { wxRoute } from './taro_route';
+import { flutterImage } from './flutter_image';
 
 commander
   .command('wx')
@@ -21,7 +22,8 @@ commander
   .command('f')
   .option('-p, --path <>', '查找路径,default to assets', 'assets')
   .description('start command description')
-  .action(() => {
-    console.log('start');
+  .action((cmd) => {
+    console.log(cmd.path, 'ooooooooooooooo');
+    flutterImage(cmd.path);
   });
 commander.parse(process.argv);
