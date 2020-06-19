@@ -19,7 +19,7 @@ commander
 
 commander
   .command('f')
-  .option('-p, --path')
+  .option('-p, --path <>', '查找路径,default to assets', 'assets')
   .description('start command description')
   .action(() => {
     console.log('start');

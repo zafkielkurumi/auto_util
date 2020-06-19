@@ -6,7 +6,7 @@ const reg = /pages[a-z | A-z]*Package/;
 let routesConfig = '';
 let routes = '';
 let subPackageStr = '';
-let basename = 'pages';
+const basename = 'pages';
 const subPackage = [];
 const template = `
 // GENERATED CODE - DO NOT MODIFY MANUALLY
@@ -90,7 +90,7 @@ function readDir(filePath) {
 export function wxRoute(src: string): void {
   console.log('wx route start');
   const filePath = path.join(process.cwd(), src);
-  console.log(basename, 'base')
+  console.log(basename, 'base');
   readDir(filePath);
   subPackage.forEach((pkg) => {
     subPackageStr += `{

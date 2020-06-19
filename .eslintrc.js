@@ -6,6 +6,18 @@ module.exports = {
   extends: [
     'airbnb-base',
   ],
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: [
+          '.js',
+          '.jsx',
+          '.tsx',
+          '.ts',
+        ],
+      },
+    },
+  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 11,
@@ -17,8 +29,9 @@ module.exports = {
   rules: {
     'import/prefer-default-export': 'off',
     'no-console': 'off',
+    'import/no-unresolved': 2,
     'import/extensions': [
-      'never',
+      'warn',
       {
         pattern: {
           js: 'never',

@@ -6,7 +6,9 @@
         "sourceMap": false,
         "watch": true,
         "esModuleInterop": true,
-        "noEmitOnError": true
+        "noEmitOnError": true,
+        "allowJs": true,
+        "resolveJsonModule": true,
     },
     "exclude": [
         "node_modules",
