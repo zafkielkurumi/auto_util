@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "ES2019",
+        "module": "commonjs",
+        "outDir": "./bin",
+        "sourceMap": false,
+        "watch": true,
+        "esModuleInterop": true,
+        "noEmitOnError": true
+    },
+    "exclude": [
+        "node_modules",
+        "bin"
+    ]
+}
