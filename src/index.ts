@@ -6,6 +6,7 @@
 import commander from 'commander';
 import { wxRoute } from './taro_route';
 import { flutterImage } from './flutter_image';
+import { reactImage } from './react_image';
 
 commander
   .command('wx')
@@ -25,5 +26,13 @@ commander
   .action((cmd) => {
     console.log(cmd.path, 'ooooooooooooooo');
     flutterImage(cmd.path);
+  });
+
+commander
+  .command('react')
+  .option('-p, --path <>', '查找路径,default to src\\assets', 'src\\assets')
+  .description('start command description')
+  .action((cmd) => {
+    reactImage(cmd.path);
   });
 commander.parse(process.argv);
