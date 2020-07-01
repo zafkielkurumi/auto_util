@@ -1,12 +1,10 @@
-#!node
-
 import fs from 'fs';
 import path from 'path';
 import { camelName } from './utils';
 
 const arr = [];
 const arr1 = [];
-const reg: RegExp = /.[png | svg | jpg | jpeg]/ig;
+const reg: RegExp = /\.(png|svg|jpg|jpeg)$/;
 
 const basename = '\\assets';
 let imageStr = `// GENERATED CODE - DO NOT MODIFY MANUALLY

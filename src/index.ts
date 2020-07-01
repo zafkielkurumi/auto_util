@@ -20,7 +20,7 @@ commander
   });
 
 commander
-  .command('f')
+  .command('flutter')
   .option('-p, --path <>', '查找路径,default to assets', 'assets')
   .description('start command description')
   .action((cmd) => {

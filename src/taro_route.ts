@@ -104,7 +104,6 @@ export function wxRoute(src: string): void {
   let str = template.replace('{0}', routes);
   str = str.replace('{1}', routesConfig);
   str = str.replace('{2}', subPackageStr);
-  console.log(str, 'str');
   fs.writeFileSync(
     path.resolve(filePath, '..', 'constants/routes.ts'),
     str.replace(/\\/g, '/'),
