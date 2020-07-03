@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc -w",
-    "build": "tsc",
+    "start": "tsc --sourcemap -w",
+    "build": "tsc ",
     "dev": "ts-node-dev --respawn --transpileOnly src/index.ts",
     "fix": "eslint --fix  \"src/**/*.{ts,tsx}\""
   },

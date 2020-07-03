@@ -4,7 +4,7 @@
         "module": "commonjs",
         "outDir": "./bin",
         "sourceMap": false,
-        "watch": true,
+        "watch": false,
         "esModuleInterop": true,
         "noEmitOnError": true,
         "allowJs": true,
