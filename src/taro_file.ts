@@ -20,6 +20,8 @@ export default {0};
 `;
 
 export function generateFile(fileName: string, isConfig: boolean) {
+    const first = fileName[0];
+    fileName = fileName.replace(first, first.toUpperCase())
     const str = widgetTx.replace(/\{0\}/g, fileName);
     if (!fs.existsSync(`${process.cwd()}/${fileName}`)) {
         fs.mkdirSync(`${process.cwd()}/${fileName}`)
