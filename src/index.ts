@@ -22,20 +22,19 @@ commander
 
 commander
   .command('image')
-  .option('-p, --path <>', '查找路径,default to assets',)
+  .option('-p, --path <>', '查找路径,default to assets')
   .option('-t, --target <>', 'fluter or taro', '')
   .description('生成fluter or taro Image类')
   .action((cmd) => {
-    const target = cmd.target;
+    const { target } = cmd;
     if (!cmd.target) {
-      throw new Error("target option is required");      
+      throw new Error('target option is required');
     }
     if (target === 'flutter') {
       flutterImage(cmd.path ?? 'asstes');
     } else {
       reactImage(cmd.path ?? 'src\\assets');
     }
-    
   });
 
 commander
@@ -44,7 +43,7 @@ commander
   .option('-c --config <>', '是否生成config文件,默认为true', true)
   .description('自动生成taro3页面文件')
   .action((cmd) => {
-    const {filename, config} = cmd;
+    const { filename, config } = cmd;
 
     generateFile((filename as string).substring(1), config);
   });

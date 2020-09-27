@@ -45,7 +45,10 @@ function dealPackage(filePath: string, exec?: RegExpExecArray): void {
       };
       subPackage.push(item);
     }
-    const pagePath = filePath.substring(exec.index + exec[0].length + 1, filePath.lastIndexOf('.tsx'));
+    const pagePath = filePath.substring(
+      exec.index + exec[0].length + 1,
+      filePath.lastIndexOf('.tsx'),
+    );
     item.pages.push(pagePath);
   }
 }
@@ -87,6 +90,27 @@ function readDir(filePath) {
   });
 }
 
+export function updateConfig() {
+  let str = '';
+  const filePath = path.join(process.cwd(), 'src/app.config.ts');
+  const fbuffer = fs.readFileSync(
+    filePath,
+  );
+  const fStr = fbuffer.toString('utf8');
+  const matchPages = fStr.match(/(pages[\s]*:[\s]*\[)/);
+
+  if (matchPages) {
+    const pagesValue = fStr.substring(matchPages.index + matchPages[0].length, fStr.indexOf(']', matchPages.index));
+    str = fStr.replace(pagesValue, routesConfig);
+  }
+  const matchSubPackage = fStr.match(/(subPackages[\s]*:[\s]*\[)/);
+  if (matchSubPackage) {
+    const subPackageValue = str.substring(matchSubPackage.index + matchSubPackage[0].length, str.indexOf(']', matchSubPackage.index));
+    str = str.replace(subPackageValue, subPackageStr);
+  }
+  fs.writeFileSync(filePath, str.replace(/\\/g, '/'));
+}
+
 export function wxRoute(src: string): void {
   console.log('wx route start');
   const filePath = path.join(process.cwd(), src);
@@ -96,7 +120,7 @@ export function wxRoute(src: string): void {
     root: '${pkg.root}',
     name: '${pkg.name}',
     pages: [
-      '${pkg.pages.join('\',\n\t\'')}'
+      '${pkg.pages.join("',\n\t'")}'
     ]
   },`;
   });
@@ -108,5 +132,6 @@ export function wxRoute(src: string): void {
     path.resolve(filePath, '..', 'constants/routes.ts'),
     str.replace(/\\/g, '/'),
   );
+  updateConfig();
   console.log('wx route end');
 }
