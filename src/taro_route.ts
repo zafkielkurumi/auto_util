@@ -3,8 +3,9 @@ import fs from 'fs';
 import { camelName } from './utils';
 
 const reg = /pages[a-z | A-z]*Package/;
-let routesConfig = '';
+let pages = '';
 let routes = '';
+let routesConfig = '';
 let subPackageStr = '';
 const basename = 'pages';
 const subPackage = [];
@@ -69,12 +70,13 @@ function readFile(fileName: string, dirpath: string) {
       let url = filePath.substring(filePath.indexOf(basename));
       url = url.substring(0, url.lastIndexOf('.tsx'));
       routes += `${camelName(routeName)}: '/${url}',\n\t`;
+      routesConfig += `'${url}', \n\t`;
       dealPackage(filePath);
       const exec = reg.exec(filePath);
       if (exec) {
         dealPackage(filePath, exec);
       } else {
-        routesConfig += `'${url}', \n\t`;
+        pages += `'${url}', \n\t`;
       }
     }
   } else {
@@ -109,7 +111,7 @@ export function updateConfig() {
       matchPages.index + matchPages[0].length,
       str.indexOf(']', matchPages.index)
     );
-    str = str.replace(pagesValue, routesConfig);
+    str = str.replace(pagesValue, pages);
   }
 
   fs.writeFileSync(filePath, str.replace(/\\/g, '/'));
