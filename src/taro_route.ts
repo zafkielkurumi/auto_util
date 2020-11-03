@@ -47,7 +47,7 @@ function dealPackage(filePath: string, exec?: RegExpExecArray): void {
     }
     const pagePath = filePath.substring(
       exec.index + exec[0].length + 1,
-      filePath.lastIndexOf('.tsx'),
+      filePath.lastIndexOf('.tsx')
     );
     item.pages.push(pagePath);
   }
@@ -91,23 +91,27 @@ function readDir(filePath) {
 }
 
 export function updateConfig() {
-  let str = '';
   const filePath = path.join(process.cwd(), 'src/app.config.ts');
-  const fbuffer = fs.readFileSync(
-    filePath,
-  );
+  const fbuffer = fs.readFileSync(filePath);
   const fStr = fbuffer.toString('utf8');
-  const matchPages = fStr.match(/(pages[\s]*:[\s]*\[)/);
-
-  if (matchPages) {
-    const pagesValue = fStr.substring(matchPages.index + matchPages[0].length, fStr.indexOf(']', matchPages.index));
-    str = fStr.replace(pagesValue, routesConfig);
-  }
-  const matchSubPackage = fStr.match(/(subPackages[\s]*:[\s]*\[)/);
+  let str = fStr;
+  const matchSubPackage = str.match(/(subPackages[\s]*:[\s]*\[)/);
   if (matchSubPackage) {
-    const subPackageValue = str.substring(matchSubPackage.index + matchSubPackage[0].length, str.indexOf(']', matchSubPackage.index));
-    str = str.replace(subPackageValue, subPackageStr);
+    const subPackageValue = str.substring(
+      matchSubPackage.index + matchSubPackage[0].length,
+      str.indexOf('window', matchSubPackage.index),
+    );
+    str = str.replace(subPackageValue, `${subPackageStr}],`);
   }
+  const matchPages = str.match(/(pages[\s]*:[\s]*\[)/);
+  if (matchPages) {
+    const pagesValue = str.substring(
+      matchPages.index + matchPages[0].length,
+      str.indexOf(']', matchPages.index)
+    );
+    str = str.replace(pagesValue, routesConfig);
+  }
+
   fs.writeFileSync(filePath, str.replace(/\\/g, '/'));
 }
 
@@ -130,7 +134,7 @@ export function wxRoute(src: string): void {
   str = str.replace('{2}', subPackageStr);
   fs.writeFileSync(
     path.resolve(filePath, '..', 'constants/routes.ts'),
-    str.replace(/\\/g, '/'),
+    str.replace(/\\/g, '/')
   );
   updateConfig();
   console.log('wx route end');
