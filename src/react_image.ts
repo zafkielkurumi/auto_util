@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { camelName } from './utils';
+import { camelize } from './utils';
 
 const arr = [];
 const arr1 = [];
-const reg: RegExp = /\.(png|svg|jpg|jpeg)$/;
+const reg: RegExp = /\.(png|svg|jpg|jpeg|gif)$/;
 
 const basename = '\\assets';
 let imageStr = `// GENERATED CODE - DO NOT MODIFY MANUALLY
@@ -32,8 +32,8 @@ function readFile(fileName, dirpath) {
     if (reg.test(fileName)) {
       const name = fileName.substring(0, fileName.lastIndexOf('.'));
       const url = filePath.substring(filePath.indexOf(basename));
-      arr.push(`import ${camelName(name)} from '@${url}';`);
-      arr1.push(camelName(name));
+      arr.push(`import ${camelize(name)} from '@${url}';`);
+      arr1.push(camelize(name));
     }
   } else {
     // eslint-disable-next-line no-use-before-define

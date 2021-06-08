@@ -5,6 +5,7 @@
  */
 import commander from 'commander';
 import { wxRoute } from './taro_route';
+import { vueRoute } from './vueRoute';
 import { flutterImage } from './flutter_image';
 import { reactImage } from './react_image';
 import { generateFile } from './taro_file';
@@ -21,6 +22,17 @@ commander
   });
 
 commander
+  .command('vueRoute')
+  .option('-p, --path <path>', '查找路径,default to src\\pages', 'src\\pages')
+  .description('自动生成微信小程序pages路由')
+  .action((cmd) => {
+    // wxRoute()
+    console.log('使用规则，分包的文件名必须末尾Package，页面名称末尾Page');
+    console.log(process.cwd(), ' 当前执行程序的路径');
+    vueRoute(cmd.path);
+  });
+
+commander
   .command('image')
   .option('-p, --path <>', '查找路径,default to assets')
   .option('-t, --target <>', 'fluter or taro', '')
@@ -31,7 +43,7 @@ commander
       throw new Error('target option is required');
     }
     if (target === 'flutter') {
-      flutterImage(cmd.path ?? 'asstes');
+      flutterImage(cmd.path ?? 'assets');
     } else {
       reactImage(cmd.path ?? 'src\\assets');
     }

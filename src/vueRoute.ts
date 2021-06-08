@@ -7,6 +7,7 @@ let pages = '';
 let routes = '';
 let routesConfig = '';
 let subPackageStr = '';
+const tempRoutesConfig: any[] = [];
 const basename = 'pages';
 const subPackage = [];
 const template = `
@@ -48,7 +49,7 @@ function dealPackage(filePath: string, exec?: RegExpExecArray): void {
     }
     const pagePath = filePath.substring(
       exec.index + exec[0].length + 1,
-      filePath.lastIndexOf('.tsx'),
+      filePath.lastIndexOf('.vue'),
     );
     item.pages.push(pagePath);
   }
@@ -65,18 +66,19 @@ function readFile(fileName: string, dirpath: string) {
   const fileStats = fs.statSync(filePath);
 
   if (fileStats.isFile()) {
-    if (fileName.includes('Page.tsx')) {
+    if (fileName.includes('Page.vue')) {
       const routeName = fileName.substring(0, fileName.lastIndexOf('.'));
       let url = filePath.substring(filePath.indexOf(basename));
-      url = url.substring(0, url.lastIndexOf('.tsx'));
+      url = url.substring(0, url.lastIndexOf('.vue'));
       routes += `${camelize(routeName)}: '/${url}',\n\t`;
       routesConfig += `'${url}', \n\t`;
+      tempRoutesConfig.push(url);
       dealPackage(filePath);
       const exec = reg.exec(filePath);
       if (exec) {
         dealPackage(filePath, exec);
       } else {
-        pages += `'${url}', \n\t`;
+        pages += `"${url}", \n\t`;
       }
     }
   } else {
@@ -93,7 +95,7 @@ function readDir(filePath) {
 }
 
 export function updateConfig() {
-  const filePath = path.join(process.cwd(), 'src/app.config.ts');
+  const filePath = path.join(process.cwd(), 'src/pages.json');
   const fbuffer = fs.readFileSync(filePath);
   const fStr = fbuffer.toString('utf8');
   let str = fStr;
@@ -105,19 +107,41 @@ export function updateConfig() {
     );
     str = str.replace(subPackageValue, `${subPackageStr}],`);
   }
-  const matchPages = str.match(/(pages[\s]*:[\s]*\[)/);
+  const matchPages = str.match(/("pages"[\s]*:[\s]*\[)/);
   if (matchPages) {
     const pagesValue = str.substring(
       matchPages.index + matchPages[0].length,
       str.indexOf(']', matchPages.index),
     );
-    str = str.replace(pagesValue, pages);
+    const pagesArr: Array<any> = JSON.parse(`[${pagesValue.replace(/\/\//g, '/')}]`); // 原有route
+    const tempArr = [];
+    tempRoutesConfig.sort((a, b) => {
+      if (a > b) {
+        return 1;
+      }
+      return -1;
+    });
+    tempRoutesConfig.forEach((r) => {
+      const url = r.trim().replace(/\\/g, '/');
+      if (url) {
+        const index = pagesArr.findIndex((page) => page.path === url);
+        if (index > -1) {
+          tempArr.push(pagesArr[index]);
+        } else {
+          tempArr.push({
+            path: r,
+          });
+        }
+      }
+    });
+    const tempStr = JSON.stringify(tempArr);
+    str = str.replace(pagesValue, tempStr.substring(1, tempStr.length - 1).replace(/\\\\/g, '/'));
   }
 
   fs.writeFileSync(filePath, str.replace(/\\/g, '/'));
 }
 
-export function wxRoute(src: string): void {
+export function vueRoute(src: string): void {
   console.log('wx route start');
   const filePath = path.join(process.cwd(), src);
   readDir(filePath);
@@ -135,7 +159,7 @@ export function wxRoute(src: string): void {
   str = str.replace('{1}', routesConfig);
   str = str.replace('{2}', subPackageStr);
   fs.writeFileSync(
-    path.resolve(filePath, '..', 'constants/routes.ts'),
+    path.resolve(filePath, '..', 'router/routes.ts'),
     str.replace(/\\/g, '/'),
   );
   updateConfig();

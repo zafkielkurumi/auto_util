@@ -1,1 +1,1 @@
-export * from './transfrom';
+export * from './strings';

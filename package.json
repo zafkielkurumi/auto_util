@@ -1,6 +1,6 @@
 {
   "name": "cutil",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "用于自用自动化生成taro下路由，两者的图片配置",
   "main": "index.js",
   "scripts": {

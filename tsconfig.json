@@ -1,17 +1,19 @@
 {
     "compilerOptions": {
-        "target": "ES2019",
-        "module": "commonjs",
+        "target": "esnext",
+        "module": "CommonJS",
         "outDir": "./bin",
         "sourceMap": false,
         "watch": false,
         "esModuleInterop": true,
         "noEmitOnError": true,
         "allowJs": true,
+        "moduleResolution": "node",
         "resolveJsonModule": true,
+        "lib": ["esnext",],
     },
     "exclude": [
         "node_modules",
         "bin"
-    ]
+    ],
 }

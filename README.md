@@ -3,3 +3,6 @@
 # npm run build
 # npm link auto_util
 # 去除 npm unlink auto_util
+
+# 使用
+cutil -h
