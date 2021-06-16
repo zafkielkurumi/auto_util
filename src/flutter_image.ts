@@ -5,7 +5,7 @@ import path from 'path';
 import { camelize } from './utils';
 
 const arr = [];
-const reg: RegExp = /\.(png|svg|jpg|jpeg|gif|webp)$/ig;
+const reg: RegExp = /\.(png|svg|jpg|jpeg|gif|webp)$/i;
 
 const basename = '\\assets';
 let dartClass = `
