@@ -15,7 +15,6 @@ let dartClass = `
 // **************************************************************************
 
 class Images {
-  const Images._();
   {0}
 }
 `;
@@ -37,7 +36,7 @@ function readFile(fileName: string, dirpath: string) {
       const tempName = file.substring(0, file.lastIndexOf('.'));
       const name = camelize(tempName.replaceAll('@', '').replaceAll('\\', ' '));
       const url = filePath.substring(filePath.indexOf(basename) + 1);
-      arr.push(`static String ${camelize(name)} = '${url}';\n\t`);
+      arr.push(`static const String ${camelize(name)} = '${url}';\n\t`);
     }
   } else {
     // eslint-disable-next-line no-use-before-define
