@@ -71,7 +71,7 @@ function readFile(fileName: string, dirpath: string) {
       let url = filePath.substring(filePath.indexOf(basename));
       url = url.substring(0, url.lastIndexOf('.vue'));
       routes += `${camelize(routeName)}: '/${url}',\n\t`;
-      routesConfig += `'${url}', \n\t`;
+      routesConfig += `'/${url}', \n\t`;
       tempRoutesConfig.push(url);
       dealPackage(filePath);
       const exec = reg.exec(filePath);
@@ -138,7 +138,7 @@ export function updateConfig() {
     str = str.replace(pagesValue, tempStr.substring(1, tempStr.length - 1).replace(/\\\\/g, '/'));
   }
 
-  fs.writeFileSync(filePath, str.replace(/\\/g, '/'));
+  fs.writeFileSync(filePath, JSON.stringify(JSON.parse(str.replace(/\\/g, '/')), null, 2));
 }
 
 export function vueRoute(src: string): void {

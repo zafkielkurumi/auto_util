@@ -43,9 +43,9 @@ commander
       throw new Error('target option is required');
     }
     if (target === 'flutter') {
-      flutterImage(cmd.path ?? 'assets');
+      flutterImage(cmd.path ? cmd.path : 'assets');
     } else {
-      reactImage(cmd.path ?? 'src\\assets');
+      reactImage(cmd.path ? cmd.path : 'src\\assets');
     }
   });
 

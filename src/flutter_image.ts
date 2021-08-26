@@ -34,7 +34,7 @@ function readFile(fileName: string, dirpath: string) {
       console.log(filePath, 'filePath');
       const [_, file]: string[] = filePath.split(`${basename}\\images`);
       const tempName = file.substring(0, file.lastIndexOf('.'));
-      const name = camelize(tempName.replaceAll('@', '').replaceAll('\\', ' '));
+      const name = camelize(tempName.replace(/@/g, '').replace(/\\/g, ' '));
       const url = filePath.substring(filePath.indexOf(basename) + 1);
       arr.push(`static const String ${camelize(name)} = '${url}';\n\t`);
     }
